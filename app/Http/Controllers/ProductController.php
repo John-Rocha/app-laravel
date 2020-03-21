@@ -9,20 +9,16 @@ class ProductController extends Controller
 {
     protected $request;
     protected $user;
-    
+
     public function __construct(Request $request)
     {
         //dd($request);
         $this->request = $request;
-        /*
-        $this->middleware('auth')->only([
-            'create',
-            'edit',
-            'store',
-            'update',
-            'destroy'
+
+
+        $this->middleware('auth')->except([
+            'index', 'create'
         ]);
-        */
 
     }
     /**

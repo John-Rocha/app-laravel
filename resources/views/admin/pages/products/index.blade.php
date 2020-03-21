@@ -5,6 +5,19 @@
 @section('content')
     <h1>Exibindo os produtos</h1>
 
+    @component('admin.components.cards')
+        @slot('title')
+            <h1>Titúlo Card</h1>
+        @endslot
+        Um card de exemplo
+    @endcomponent
+
+    <hr>
+
+    @include('admin.alerts.alerts', ['content' => 'Alerta de preço de produtos'])
+
+    <hr>
+
     @if (isset($products))
         @foreach ($products as $product)
             <p class="@if ($loop->last) last @endif"> {{ $product }} </p>
@@ -14,7 +27,7 @@
     <hr>
 
     @forelse ($products as $product)
-        <p class="@if ($loop->first) first @endif"> {{ $product }} </p>
+        <p class="@if ($loop->first) last @endif"> {{ $product }} </p>
     @empty
         <p>Não existem produtos cadastrados</p>
     @endforelse
@@ -32,11 +45,16 @@
     @endguest
 @endsection
 
-<style>
-    .last {
-        background: #CCC;
-    }
-    .first {
-        background: red;
-    }
-</style>
+@push('styles')
+    <style>
+        .last {
+            background: #CCC;
+        }
+    </style>
+@endpush
+
+@push('scripts')
+    <script>
+        document.body.style.background = '#999';
+    </script>
+@endpush
