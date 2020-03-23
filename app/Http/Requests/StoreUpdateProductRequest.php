@@ -29,4 +29,17 @@ class StoreUpdateProductRequest extends FormRequest
             'foto' => 'required|image',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'nome.required' => 'Nome é obrigatório',
+            'nome.min' => 'Ops!!! Precisa informar pelo menos 3 caracteres',
+            'nome.max' => 'Ops!!! Quantidade de caracteres acima do permitido',
+            'descricao.min' => 'Ops!!! Precisa informar pelo menos 3 caracteres',
+            'descricao.max' => 'Ops!!! Quantidade de caracteres acima do permitido',
+            'foto.required' => 'Foto é obrigatória',
+        ];
+    }
+
 }

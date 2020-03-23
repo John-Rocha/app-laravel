@@ -15,15 +15,16 @@
             </ul>
         @endif
         <form action=" {{ route('products.store') }} " method="post" enctype="multipart/form-data">
-            <div class="form-group">
+            <div class="form-group mb-2">
                 @csrf
-                <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome">
-                <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Descrição">
-                <input type="file" class="form-control" name="foto">
+                <input type="text" name="nome" id="nome" class="form-control mb-2" placeholder="Nome" value=" {{ old('nome') }} ">
+                <input type="text" name="descricao" id="descricao" class="form-control mb-2" placeholder="Descrição" value=" {{ old('descricao') }} ">
+                <input type="file" class="form-control mb-2" name="foto">
                 <!--
                 <input type="number" name="preco" id="preco" class="form-control" placeholder="Preço">
                 -->
-                <button type="submit" class="btn btn-primary form-control">Cadastrar</button>
+                <button type="submit" class="btn btn-primary">Cadastrar</button>
+                <a href=" {{ route('products.index') }} " class="btn btn-danger">Voltar</a>
               </div>
         </form>
     </div>
