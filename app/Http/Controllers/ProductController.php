@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreUpdateProductRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -16,9 +17,9 @@ class ProductController extends Controller
         $this->request = $request;
 
 
-        $this->middleware('auth')->except([
-            'index', 'create'
-        ]);
+        // $this->middleware('auth')->except([
+        //     'index', 'create'
+        // ]);
 
     }
     /**
@@ -51,9 +52,27 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreUpdateProductRequest $request)
     {
-        return "Cadastrando um novo produto";
+        /*
+        $request->validate([
+            'nome' => 'required|min:3|max:255',
+            'descricao' => 'nullable|min:3|max:10000',
+            'foto' => 'required|image',
+        ]);
+        */
+
+        //dd($request->all());
+        //dd($request->only('descricao'));
+        //dd($request->name);
+        //dd($request->input('name', 'produto não informado'));
+        //dd($request->except('_token'));
+
+        if ($request->file('foto')->isValid()) {
+            //dd($request->file('foto')->store('products'));
+            $nameFile = $request->nome . '.' . $request->foto->extension();
+            dd($request->file('foto')->storeAs('products', $nameFile));
+        }
     }
 
     /**
@@ -75,7 +94,7 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        return "Editando o produto: {$id}";
+        return view('admin.pages.products.edit', compact('id'));
     }
 
     /**
@@ -87,7 +106,7 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return "Editando e atualizando o produto: {$id}";
+        dd("Editando o produto {$id}");
     }
 
     /**
