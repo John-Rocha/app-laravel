@@ -2,11 +2,13 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\Models\User;
+use App\Models\Product;
 use Faker\Generator as Faker;
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(Product::class, function (Faker $faker) {
     return [
-        //
+        'nome' => $faker->unique()->word,
+        'descricao' => $faker->sentence(),
+        'preco' => 12.2,
     ];
 });

@@ -12,7 +12,7 @@
     @stack('styles')
   </head>
   <body>
-      <div class="container-fluid">
+      <div class="container">
         @yield('content')
       </div>
 

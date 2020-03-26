@@ -3,60 +3,55 @@
 @section('title', 'Gestão de produtos')
 
 @section('content')
+
     <h1>Exibindo os produtos</h1>
-    <a href=" {{ route('products.create') }} ">Cadastrar</a>
-    <hr>
 
-    @component('admin.components.cards')
-        @slot('title')
-            <h1>Titúlo Card</h1>
-        @endslot
-        Um card de exemplo
-    @endcomponent
+    <a href=" {{ route('products.create') }} " class="btn btn-primary">Cadastrar</a>
 
     <hr>
 
-    @include('admin.alerts.alerts', ['content' => 'Alerta de preço de produtos'])
+    <form action="{{ route('products.search') }}" method="post" class="form form-inline">
+        @csrf
+        <input type="text" name="filter" placeholder="Filtrar:" class="form-control" value=" {{ $filters['filter'] ?? '' }} ">
+        <button type="submit" class="btn btn-info">Pesquisar</button>
+    </form>
 
     <hr>
 
-    @if (isset($products))
-        @foreach ($products as $product)
-            <p class="@if ($loop->last) last @endif"> {{ $product }} </p>
-        @endforeach
-    @endif
+    <table class="table table-striped">
+        <thead class="thead-dark">
+            <tr>
+                <th width="100">Imagem</th>
+                <th>Nome</th>
+                <th>Preço</th>
+                <th width="100">Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($products as $product)
+                <tr>
+                    <td>
+                        @if ($product->image)
+                            <a href="{{ url("storage/{$product->image}") }}">
+                                <img src="{{ url("storage/{$product->image}") }}" alt="{{$product->nome}}" style="max-width: 100px;">
+                            </a>
+                        @endif
+                    </td>
+                    <td> {{ $product->nome }} </td>
+                    <td> {{ $product->preco }} </td>
+                    <td>
+                        <a href=" {{ route('products.edit', $product->id) }} ">Editar</a>
+                        <a href=" {{ route('products.show', $product->id) }} ">Detalhes</a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-    <hr>
-
-    @forelse ($products as $product)
-        <p class="@if ($loop->first) last @endif"> {{ $product }} </p>
-    @empty
-        <p>Não existem produtos cadastrados</p>
-    @endforelse
-
-    <hr>
-
-    @if ($teste === 123)
-        É igual!
+    @if (isset($filters))
+        {!! $products->appends($filters)->links() !!}
     @else
-        É diferente
+        {!! $products->links() !!}
     @endif
 
-    @guest
-        <p>Não autenticado</p>
-    @endguest
 @endsection
-
-@push('styles')
-    <style>
-        .last {
-            background: #CCC;
-        }
-    </style>
-@endpush
-
-@push('scripts')
-    <script>
-        document.body.style.background = '#999';
-    </script>
-@endpush
